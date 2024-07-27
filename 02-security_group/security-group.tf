@@ -5,6 +5,12 @@ module "database_security_group" {
 
 }
 
+module "jenkins_security_group" {
+  source = "../../terraform-securitygroup-resource"
+  sg_name = "jenkins-${var.sg_name}"
+  expense_vpc_id = data.aws_ssm_parameter.vpc_id_expense.value
+
+}
 
 module "backend_security_group" {
   source = "../../terraform-securitygroup-resource"
@@ -49,10 +55,6 @@ module "web-alb_security_group" {
   expense_vpc_id = data.aws_ssm_parameter.vpc_id_expense.value
 
 }
-
-
-
-
 
 resource "aws_security_group_rule" "backend-db" {
   type              = "ingress"

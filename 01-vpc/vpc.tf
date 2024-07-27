@@ -7,6 +7,5 @@ module "vpc-creation" {
   backend_subnet_name = var.backend_subnet
   database_subnet_name = var.database_subnet
   frontend_subnet_group_name = var.frontend_subnet_group_name
-
-  
+    
 }

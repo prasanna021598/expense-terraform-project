@@ -7,7 +7,7 @@ terraform {
   }
 
    backend "s3" {
-    bucket = "ilovedevops"
+    bucket = "terraform-practice15"
     key    = "terraform-sg-instances-project"
     region = "us-east-1"
   }
