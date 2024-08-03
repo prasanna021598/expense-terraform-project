@@ -54,11 +54,11 @@ resource "aws_launch_template" "frontend" {
 
 resource "aws_autoscaling_group" "frontend" {
   name                      =  "${var.project_name}-frontend"
-  max_size                  = 5
+  max_size                  = 3
   min_size                  = 1
   health_check_grace_period = 60
   health_check_type         = "ELB"
-  desired_capacity          = 1
+  desired_capacity          = 2
   target_group_arns = [ aws_lb_target_group.frontend-expense_alb.arn]
 
   launch_template {
@@ -87,7 +87,6 @@ resource "aws_autoscaling_policy" "frontend-policy" {
   predefined_metric_specification {
     predefined_metric_type = "ASGAverageCPUUtilization"
   }
-
   target_value = 10.0
 }
 
