@@ -2,13 +2,13 @@ terraform {
   required_providers {
     aws = {
       source = "hashicorp/aws"
-      version = "5.52.0"
+      version = ">= 5.52.0"
     }
   }
 
    backend "s3" {
     bucket = "terraform-practice15"
-    key    = "terraform-db-instances-project"
+    key    = "terraform-database-expense-project"
     region = "us-east-1"
   }
 }

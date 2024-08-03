@@ -1,59 +1,57 @@
 module "database_security_group" {
-  source = "../../terraform-securitygroup-resource"
+  source = "git::https://github.com/skaparth15/terraform-securitygroup-resource.git"
   sg_name = "database-${var.sg_name}"
   expense_vpc_id = data.aws_ssm_parameter.vpc_id_expense.value
-
 }
 
 module "jenkins_security_group" {
-  source = "../../terraform-securitygroup-resource"
+  source = "git::https://github.com/skaparth15/terraform-securitygroup-resource.git"
   sg_name = "jenkins-${var.sg_name}"
   expense_vpc_id = data.aws_ssm_parameter.vpc_id_expense.value
+}
 
+module "nexus_security_group" {
+  source = "git::https://github.com/skaparth15/terraform-securitygroup-resource.git"
+  sg_name = "nexus-${var.sg_name}"
+  expense_vpc_id = data.aws_ssm_parameter.vpc_id_expense.value
 }
 
 module "backend_security_group" {
-  source = "../../terraform-securitygroup-resource"
+  source = "git::https://github.com/skaparth15/terraform-securitygroup-resource.git"
   sg_name = "backend-${var.sg_name}"
   expense_vpc_id = data.aws_ssm_parameter.vpc_id_expense.value
-
 }
 
-
 module "frontend_security_group" {
-  source = "../../terraform-securitygroup-resource"
+  source = "git::https://github.com/skaparth15/terraform-securitygroup-resource.git"
   sg_name = "frontend-${var.sg_name}"
   expense_vpc_id = data.aws_ssm_parameter.vpc_id_expense.value
 
 }
 
 module "bastion_security_group" {
-  source = "../../terraform-securitygroup-resource"
+  source = "git::https://github.com/skaparth15/terraform-securitygroup-resource.git"
   sg_name = "bastion-${var.sg_name}"
   expense_vpc_id = data.aws_ssm_parameter.vpc_id_expense.value
 
 }
 
-
 module "ansible_security_group" {
-  source = "../../terraform-securitygroup-resource"
+  source = "git::https://github.com/skaparth15/terraform-securitygroup-resource.git"
   sg_name = "ansible-${var.sg_name}"
   expense_vpc_id = data.aws_ssm_parameter.vpc_id_expense.value
-
 }
 
 module "backend-alb_security_group" {
-  source = "../../terraform-securitygroup-resource"
+  source = "git::https://github.com/skaparth15/terraform-securitygroup-resource.git"
   sg_name = "alb-${var.sg_name}"
   expense_vpc_id = data.aws_ssm_parameter.vpc_id_expense.value
-
 }
 
 module "web-alb_security_group" {
-  source = "../../terraform-securitygroup-resource"
+  source = "git::https://github.com/skaparth15/terraform-securitygroup-resource.git"
   sg_name = "web-alb-${var.sg_name}"
   expense_vpc_id = data.aws_ssm_parameter.vpc_id_expense.value
-
 }
 
 resource "aws_security_group_rule" "backend-db" {
@@ -73,8 +71,6 @@ resource "aws_security_group_rule" "bastion-db" {
   security_group_id = module.database_security_group.securitygroup_id
   source_security_group_id = module.bastion_security_group.securitygroup_id
 }
-
-
 
 resource "aws_security_group_rule" "frontend-backend_alb" {
   type              = "ingress"
@@ -182,7 +178,41 @@ resource "aws_security_group_rule" "public-bastion" {
   cidr_blocks = ["0.0.0.0/0"]
 }
 
+resource "aws_security_group_rule" "public-jenkins" {
+  type              = "ingress"
+  from_port         = 22 #destination port
+  to_port           = 22
+  protocol          = "tcp"
+  security_group_id = module.jenkins_security_group.securitygroup_id
+  cidr_blocks = ["0.0.0.0/0"]
+}
 
+resource "aws_security_group_rule" "port_jenkins" {
+  type              = "ingress"
+  from_port         = 8080 #destination port
+  to_port           = 8080
+  protocol          = "tcp"
+  security_group_id = module.jenkins_security_group.securitygroup_id
+  cidr_blocks = ["0.0.0.0/0"]
+}
+
+resource "aws_security_group_rule" "port_nexus" {
+  type              = "ingress"
+  from_port         = 8081 #destination port
+  to_port           = 8081
+  protocol          = "tcp"
+  security_group_id = module.nexus_security_group.securitygroup_id
+  cidr_blocks = ["0.0.0.0/0"]
+}
+
+resource "aws_security_group_rule" "port_nexus-ssh" {
+  type              = "ingress"
+  from_port         = 22 #destination port
+  to_port           = 22
+  protocol          = "tcp"
+  security_group_id = module.nexus_security_group.securitygroup_id
+  cidr_blocks = ["0.0.0.0/0"]
+}
 
 
 

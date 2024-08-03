@@ -4,10 +4,23 @@ resource "aws_ssm_parameter" "database-sg-id" {
   value = module.database_security_group.securitygroup_id
 }
 
+
 resource "aws_ssm_parameter" "backend-sg-id" {
   name  = "/expense/backend-sg-id"
   type  = "String"
   value = module.backend_security_group.securitygroup_id
+}
+
+resource "aws_ssm_parameter" "jenkins-sg-id" {
+  name  = "/expense/jenkins-sg-id"
+  type  = "String"
+  value = module.jenkins_security_group.securitygroup_id
+}
+
+resource "aws_ssm_parameter" "nexus-sg-id" {
+  name  = "/expense/nexus-sg-id"
+  type  = "String"
+  value = module.nexus_security_group.securitygroup_id
 }
 
 resource "aws_ssm_parameter" "frontend-sg-id" {
