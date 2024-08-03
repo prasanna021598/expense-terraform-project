@@ -31,7 +31,6 @@ resource "null_resource" "cluster" {
     inline = [
       "chmod +x /tmp/backend.sh",
       "sudo sh /tmp/backend.sh",
-
     ]
 }
 }
