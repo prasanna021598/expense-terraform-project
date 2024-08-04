@@ -30,6 +30,7 @@ resource "null_resource" "cluster" {
   provisioner "remote-exec" {
     inline = [
       "chmod +x /tmp/backend.sh",
+      "dos2unix /tmp/backend.sh",
       "sudo sh /tmp/backend.sh",
     ]
 }
