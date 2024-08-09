@@ -2,9 +2,7 @@ variable "common_tags" {
   default = {
     Terraform   = "true"
     Environment = "dev"
-
   }
-
 }
 
 

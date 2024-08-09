@@ -5,9 +5,6 @@ resource "aws_lb" "backend" {
   security_groups    = [data.aws_ssm_parameter.sg_id_alb.value]
   subnets            = split(",", data.aws_ssm_parameter.subnet_backend_ids.value)
   enable_deletion_protection = false
-
- 
-
   tags = var.common_tags
 }
 
